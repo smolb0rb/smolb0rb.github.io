@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="navbar">
+            <ul class="nav-items">
+                <li class="nav-item"><a href="https://github.com/smolb0rb">GitHub</a></li>
+                <li class="nav-item"><a href="#">Portfolio</a></li>
+                <li class="nav-item"><a href="#">LinkedIn</a></li>
+                <li class="nav-item"><a href="#">Contact</a></li>
+            </ul>
+        </div>
+        <div id="hero">
+        </div>
+        <br><br><br>
+        <img src="img/bongocat.gif" class="bongocat">
+        <div id="post" style="display: none;">Random fact: </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
+
+    <script>
+        (function(){
+            async function textEnd() {
+                let post = document.getElementById('post');
+                let uselessFactJson = await (await fetch('https://uselessfacts.jsph.pl/api/v2/facts/random')).json();
+
+                let factElement = document.createElement('a');
+                factElement.innerText = uselessFactJson.text;
+                factElement.href = `https://www.google.com/search?q=${encodeURI(uselessFactJson.text)}`;
+                factElement.target = "_blank";
+
+                post.appendChild(factElement);
+                post.style.display = 'block';
+            }
+
+            let text = "Hi! I'm Agustina, and I'm a Java and Go back-end programmer";
+            let hero = document.getElementById('hero');
+
+            let currentText = "";
+            let currentIdx = 0;
+
+            let tmId = setInterval(function(){
+                currentText += text.charAt(currentIdx++);
+                hero.textContent = currentText;
+
+                if (currentIdx >= text.length) {
+                    clearInterval(tmId)
+                    textEnd()
+                }
+            }, 80)
+
+            // Configure Vanta "net" background
+            VANTA.NET({
+                el: ".container",
+                mouseControls: true,
+                touchControls: true,
+                gyroControls: false,
+                minHeight: 200.00,
+                minWidth: 200.00,
+                scale: 1.00,
+                scaleMobile: 1.00
+            })
+
+        })()
+    </script>
+</body>
+</html>
